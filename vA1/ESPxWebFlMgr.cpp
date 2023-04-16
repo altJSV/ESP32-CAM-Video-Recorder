@@ -331,7 +331,7 @@ void ESPxWebFlMgr::fileManagerFileListInsert(void) {  // must get arg with /i to
   fcd = "<div "
         "class=\"ccl " + direct + "\""
         "onclick=\"opendirectory('" + fn + "')\""
-        ">&nbsp;&nbsp;" + fn + " - GOTO ROOT DIR -" + "</div>";
+        ">&nbsp;&nbsp;" + fn + " - ПЕРЕЙТИ В КОРЕНЬ ДИСКА -" + "</div>";
   fcd += "<div class=\"ccz " + direct + "\">&nbsp;" + " "  + "&nbsp;</div>";
   fcd += "<div class=\"cct " + direct + "\">&nbsp;" + dispIntDotted(0) + "&nbsp;</div>";
   fcd += "<div class=\"ccr " + direct + "\">&nbsp;";
@@ -397,12 +397,12 @@ void ESPxWebFlMgr::fileManagerFileListInsert(void) {  // must get arg with /i to
       fc += "<div class=\"cct " + colorline(i) + "\">&nbsp;" + dispIntDotted(file.size()) + "&nbsp;</div>";
 
       fc += "<div class=\"ccr " + colorline(i) + "\">&nbsp;"
-            "<button title=\"Delete\" onclick=\"deletefile('" + fn + "')\" class=\"b\">D</button> "
-            "<button title=\"Rename\" onclick=\"renamefile('" + fn + "')\" class=\"b\">R</button> ";
+            "<button title=\"Удалить\" onclick=\"deletefile('" + fn + "')\" class=\"b\">D</button> "
+            "<button title=\"Переименовать\" onclick=\"renamefile('" + fn + "')\" class=\"b\">R</button> ";
 
       // no gziped version and (zipper or gziped zipper) exists
       if ( (! (fn.endsWith(".gz")) ) && gzipperexists) {
-        fc += "<button title=\"Compress\" onclick=\"compressurlfile('" + fn + "')\" class=\"b\">C</button> ";
+        fc += "<button title=\"Сжать\" onclick=\"compressurlfile('" + fn + "')\" class=\"b\">C</button> ";
       }
       // for editor
 #ifndef fileManagerEditEverything
@@ -411,7 +411,7 @@ void ESPxWebFlMgr::fileManagerFileListInsert(void) {  // must get arg with /i to
            (contentTyp.startsWith("application/j"))  ) // boldly assume: json, javascript and everything else is edible....
 #endif
       {
-        fc += "<button title=\"Edit\" onclick=\"editfile('" + fn + "')\" class=\"b\">E</button> ";
+        fc += "<button title=\"Редактироватьт\" onclick=\"editfile('" + fn + "')\" class=\"b\">E</button> ";
       }
 
       fc += "&nbsp;&nbsp;</div>";
@@ -424,9 +424,9 @@ void ESPxWebFlMgr::fileManagerFileListInsert(void) {  // must get arg with /i to
 
   // fileManager->sendContent("<span id=\"filecount\" data-count=\""+String(i)+"\"></span>");
 
-  String sinfo = "&nbsp; Size: " +
+  String sinfo = "&nbsp; Всего: " +
                  dispFileString(totalBytes()) +
-                 ", used: " +
+                 ", использовано: " +
                  dispFileString(usedBytes());
   /*
     fileManager->sendContent(F(" FS blocksize: "));

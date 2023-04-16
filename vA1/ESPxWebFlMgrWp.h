@@ -34,9 +34,9 @@ static const char ESPxWebFlMgrWpindexpage[] PROGMEM = R"==x==(
             </div>
         </div>
         <div class="m2" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
-          File<br />
-          Drop<br />
-          Zone<br />
+          Зона<br />
+          Сброса<br />
+          Файла<br />
         </div>
         <div class="m3">
             <div class="s31">&nbsp;</div>
@@ -46,11 +46,11 @@ static const char ESPxWebFlMgrWpindexpage[] PROGMEM = R"==x==(
         </div>
 
         <div class="u1">&nbsp;</div>
-        <div class="u2" onclick="downloadall();">Download all files</div>
-        <div class="u3" id="msg">Loading...</div>
+        <div class="u2" onclick="downloadall();">Скачать все файлы</div>
+        <div class="u3" id="msg">Загрузка...</div>
         <div class="u4">&nbsp;</div>
         <div class="c" id="fi">
-          File list should appear here.
+          Список файлов должен быть здесь.
         </div>
     </div>
   </body>
@@ -61,7 +61,7 @@ static const char ESPxWebFlMgrWpindexpage[] PROGMEM = R"==x==(
 static const char ESPxWebFlMgrWpjavascript[] PROGMEM = R"==x==(
 
 function compressurlfile(source) {
-  msgline("Fetching file...");
+  msgline("Получение файла...");
   var request = new XMLHttpRequest();
   request.onreadystatechange = function () {
     var DONE = this.DONE || 4;
@@ -71,7 +71,7 @@ function compressurlfile(source) {
       var out = gzip.zip(data, options);
       var bout = new Uint8Array(out); // out is 16 bits...
 
-      msgline("Sending compressed file...");
+      msgline("Отправка сжатого файла...");
       var sendback = new XMLHttpRequest();
       sendback.onreadystatechange = function () {
         var DONE = this.DONE || 4;
@@ -93,7 +93,7 @@ function compressurlfile(source) {
 var subdir;
 
 function getfileinsert() {
-  msgline("Fetching files infos...");
+  msgline("Получение информации о файлах...");
   subdir = '/';
   var request = new XMLHttpRequest();
   request.onreadystatechange = function () {
@@ -110,7 +110,7 @@ function getfileinsert() {
 }
 
 function getfileinsert2(strddd) {
-  msgline("Fetching files infos...");
+  msgline("Получение информации о файлах...");
   subdir = strddd;
   var request = new XMLHttpRequest();
   request.onreadystatechange = function () {
@@ -147,8 +147,8 @@ function opendirectory(filename) {
 }
 
 function deletefile(filename) {
-  if (confirm("Really delete " + filename)) {
-    msgline("Refresh when done deleting..."); //jz msgline("Please wait. Delete in progress...");
+  if (confirm("Хотите удалить " + filename)) {
+    msgline("Обновление после удаления..."); //jz msgline("Please wait. Delete in progress...");
     executecommand("del=" + filename);
   }
 }
@@ -156,7 +156,7 @@ function deletefile(filename) {
 function renamefile(filename) {
   var newname = prompt("new name for " + filename, filename);
   if (newname != null) {
-    msgline("Refresh when done renaming ..."); //jz msgline("Please wait. Rename in progress...");
+    msgline("Обновление после перименования ..."); //jz msgline("Please wait. Rename in progress...");
     executecommand("ren=" + filename + "&new=" + newname);
   }
 }
@@ -164,7 +164,7 @@ function renamefile(filename) {
 var editxhr;
 
 function editfile(filename) {
-  msgline("Please wait. Creating editor...");
+  msgline("Пожалуйста подождите. Запуск редактора...");
 
   editxhr = new XMLHttpRequest();
   editxhr.onreadystatechange = function () {
@@ -252,7 +252,7 @@ function uploadFileProzessor() {
             clearInterval(uploadFileProzessorhndlr);
         } else {
             var file = globaldropfilelisthlpr[transferitem];
-            msgline("Please wait. Transferring file "+file.name+"...");
+            msgline("Пожалуйста подождите. Передача файла "+file.name+"...");
             console.log('process file ' + file.name);
             transferitem++;
             uploadFile(file,transferitem==globaldropfilelisthlpr.length);
@@ -324,7 +324,7 @@ function msgline(msg) {
 }
 
 function downloadall() {
-  msgline("Sending all files in one zip.");
+  msgline("Отправка всех файлов в одном архиве.");
   window.location.href = "/c?za=all";
   msgline("");
 }

@@ -1633,8 +1633,9 @@ static void config_camera() {
     config.pin_reset = RESET_GPIO_NUM;
     config.xclk_freq_hz = 20000000;
     config.pixel_format = PIXFORMAT_JPEG;
-
-    config.frame_size = FRAMESIZE_UXGA;
+    config.fb_count = 1;
+    config.frame_size = FRAMESIZE_VGA;
+    //config.fb_location = CAMERA_FB_IN_DRAM;
 
     //  v99 - lets get rid of this queuing system --- not just yet
     //    fb_max = 6;           //74.5 from 7                      // for vga and uxga
@@ -2469,17 +2470,17 @@ void do_start() {
 <h1>%s<br>ESP32-CAM Video Recorder %s </h1><br>
  <h3><font color="red">%s</font></h3><br>
 
- Recording = %d (1 is active)<br>
- Capture Interval = %d ms<br>
- Length = %d seconds<br>
- Quality = %d (10 best to 50 worst)<br>
- Framesize = %d (13 UXGA, 11 HD, 9 SVGA, 8 VGA, 6 CIF)<br>
- Repeat = %d<br>
- Speed = %d<br>
- Gray = %d<br>
+ Запись = %d (1 если активна)<br>
+ Интервал захвата = %d ms<br>
+ Длительность = %d seconds<br>
+ Качество = %d (10 лучшее, 50 худшее)<br>
+ Размер кадра = %d (13 UXGA, 11 HD, 9 SVGA, 8 VGA, 6 CIF)<br>
+ Повтор = %d<br>
+ Скорость = %d<br>
+ Оттенки серого = %d<br>
  PIR = %d<br>
- BOT = %d<br><br>
-
+ Бот = %d<br><br>
+<h3><a href="http://%s/">http://%s/</a></h3>
 <br>
 
 
@@ -2496,7 +2497,7 @@ void do_start() {
 //
 //
 void do_stop() {
-  const char the_message[] = "Stopping previous recording";
+  const char the_message[] = "Остановка предыдущей записи";
   Serial.print("do_stop "); Serial.println(the_message);
 
   const char msg[] PROGMEM = R"rawliteral(<!doctype html>
@@ -2560,25 +2561,25 @@ void do_status() {
 <body>
 <h1>%s<br>ESP32-CAM Video Recorder %s <br><font color="red">%s</font></h1><br>
 
- Used / Total SD Space <font color="red"> %d MB / %d MB</font>, Rssi %d, SD speed %d<br>
- Recording = %d, PIR Active = %d, PIR Enabled = %d, BOT Enabled = %d<br>
- Filename %s <br>
+ Использовано / Всего на SD:<font color="red"> %d MB / %d MB</font>, Rssi: %d, Скорость SD: %d<br>
+ Запись = %d, PIR активен = %d, PIR включен = %d, Бот включен = %d<br>
+ Имя файла %s <br>
  <br>
- Frame %d of %d, Skipped %d, jpeg: Normal %d, Extend %d, Bad %d<br>
- Capture Interval = %d ms, Actual Interval = %d ms, Avg Write time = <font color="red">%d ms</font>, 
- <br><br>Length = %d seconds, Quality = %d (10 best to 50 worst)<br>
- Framesize = %d (13 UXGA, 11 HD, 9 SVGA, 8 VGA, 6 CIF)<br>
- Repeat = %d, Playback Speed = %d, Gray = %d<br>
+ Кадр %d из %d, Пропущено: %d, jpeg: Normal %d, Extend %d, Bad %d<br>
+ Интервал захвата = %d ms, Фактический интервал = %d мс, Среднее время записи = <font color="red">%d мс</font>, 
+ <br><br>Длина = %d секунд, Качество = %d (10 лучшее, 50 худшее)<br>
+ Размер кадра = %d (13 UXGA, 11 HD, 9 SVGA, 8 VGA, 6 CIF)<br>
+ Повтор = %d, Скорость воспроизведения = %d, Оттенки серого = %d<br>
  <br>
  <h3><a href="http://%s/">http://%s/</a></h3>
- <h3><a href="http://%s/stream">Stream at %d ms</a></h3>
- <a href="http://%s/pir_enable">pir_enable</a>&nbsp;&nbsp;
- <a href="http://%s/pir_disable">pir_disable</a><br>
- <a href="http://%s/bot_enable">bot_enable</a>&nbsp;&nbsp;
- <a href="http://%s/bot_disable">bot_disable</a>
+ <h3><a href="http://%s/stream">Трансляция на %d мс</a></h3>
+ <a href="http://%s/pir_enable">Включить PIR</a>&nbsp;&nbsp;
+ <a href="http://%s/pir_disable">Отключить PIR</a><br>
+ <a href="http://%s/bot_enable">Включить бота</a>&nbsp;&nbsp;
+ <a href="http://%s/bot_disable">Отключить бота</a>
 
- <h3><a href="http://%s/stop">http://%s/stop<font color="red"> ... and restart.  You must be stopped before restart or PIR</font></a></h3>
- <h3><a href="http://%s:8080">http://%s:8080/ ... esp32 sd file manager</a></h3>
+ <h3><a href="http://%s/stop">http://%s/stop - <font color="red"> Остановка и перезапуск трансляции. Перед включением PIR запись должна быть остановлена</font></a></h3>
+ <h3><a href="http://%s:8080">http://%s:8080/ - Файл менеджер</a></h3>
  <br>
 
 <br><div id="image-container"></div>
